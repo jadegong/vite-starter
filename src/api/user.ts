@@ -17,7 +17,7 @@ export const loginApi = {
   pbJumpLogin: baseUrl + '/login/authLogin',
 };
 
-export function login(parameter) {
+export function login(parameter: any) {
   // const { captchaId, restParams } = parameter;
   return request({
     url: loginApi.login,
@@ -57,7 +57,7 @@ export function getCaptchaCode() {
   });
 }
 
-export function pbJumpLogin(parameter) {
+export function pbJumpLogin(parameter: any) {
   return request({
     url: loginApi.pbJumpLogin,
     method: 'post',

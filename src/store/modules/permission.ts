@@ -6,18 +6,18 @@
  * @LastEditors: Please set LastEditors
  * @LastEditTime: 2023/02/23
  */
-import type { ActionContext } from 'vuex'
-import { asyncRouterMap, constantRouterMap } from '@/router'
+import type { ActionContext } from 'vuex';
+import { asyncRouterMap, constantRouterMap } from '@/config/router.config';
 
 interface PermissionModuleStateTypeModel {
-    routers: Array<any>;
-    addRouters: Array<any>;
+  routers: Array<any>;
+  addRouters: Array<any>;
 }
 
 interface PermissionModuleTypeModel {
-    state: PermissionModuleStateTypeModel;
-    mutations: any;
-    actions: any;
+  state: PermissionModuleStateTypeModel;
+  mutations: any;
+  actions: any;
 }
 
 /**
@@ -28,17 +28,17 @@ interface PermissionModuleTypeModel {
  * @returns {boolean}
  */
 function hasPermission(permissions: Array<any>, route: any) {
-    if (permissions && permissions.length > 0) {
-        let flag = false
-        for (let i = 0, len = permissions.length; i < len; i++) {
-            if (route.name === permissions[i].permissionId) {
-                flag = true;
-                break;
-            }
-        }
-        return flag;
+  if (permissions && permissions.length > 0) {
+    let flag = false;
+    for (let i = 0, len = permissions.length; i < len; i++) {
+      if (route.name === permissions[i].permissionId) {
+        flag = true;
+        break;
+      }
     }
-    return true
+    return flag;
+  }
+  return true;
 }
 
 /**
@@ -48,43 +48,44 @@ function hasPermission(permissions: Array<any>, route: any) {
  * @returns {Array<any>} 返回过滤后的路由数组
  */
 function filterAsyncRouter(routerMap: Array<any>, user: any) {
-    if (user.permissions === undefined) {
-        return routerMap;
+  if (user.permissions === undefined) {
+    return routerMap;
+  }
+  let accessedRouters: Array<any> = [];
+  routerMap.forEach((route: any) => {
+    let temp = { ...route, children: undefined };
+    if (hasPermission(user.permissions, route)) {
+      // 如果传入的user.permissions为undefined，则表示不开启权限控制，直接返回true
+      if (route.children && route.children.length) {
+        temp.children = filterAsyncRouter(route.children, user);
+      }
+      accessedRouters.push(temp);
     }
-    let accessedRouters: Array<any> = [];
-    routerMap.forEach((route: any) => {
-        let temp = { ...route, children: undefined };
-        if (hasPermission(user.permissions, route)) { // 如果传入的user.permissions为undefined，则表示不开启权限控制，直接返回true
-            if (route.children && route.children.length) {
-                temp.children = filterAsyncRouter(route.children, user)
-            }
-            accessedRouters.push(temp);
-        }
-    })
-    return accessedRouters
+  });
+  return accessedRouters;
 }
 
 const permission: PermissionModuleTypeModel = {
-    state: {
-        routers: constantRouterMap,
-        addRouters: Array<any>(),
+  state: {
+    routers: constantRouterMap,
+    addRouters: Array<any>(),
+  },
+  mutations: {
+    SET_ROUTERS: (state: PermissionModuleStateTypeModel, routers: Array<any>) => {
+      state.addRouters = routers;
+      state.routers = constantRouterMap.concat(routers);
     },
-    mutations: {
-        SET_ROUTERS: (state: PermissionModuleStateTypeModel, routers: Array<any>) => {
-            state.addRouters = routers
-            state.routers = constantRouterMap.concat(routers)
-        }
+  },
+  actions: {
+    GenerateRoutes({ commit }: ActionContext<PermissionModuleStateTypeModel, any>, data: any) {
+      return new Promise((resolve) => {
+        const { user } = data;
+        const accessedRouters = filterAsyncRouter(asyncRouterMap, user);
+        commit('SET_ROUTERS', accessedRouters);
+        resolve(null);
+      });
     },
-    actions: {
-        GenerateRoutes({ commit }: ActionContext<PermissionModuleStateTypeModel, any>, data: any) {
-            return new Promise(resolve => {
-                const { user } = data
-                const accessedRouters = filterAsyncRouter(asyncRouterMap, user)
-                commit('SET_ROUTERS', accessedRouters)
-                resolve(null)
-            })
-        }
-    },
-}
+  },
+};
 
-export default permission
+export default permission;

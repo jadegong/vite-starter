@@ -21,6 +21,7 @@ module.exports = {
   ],
   rules: {
     'vue/no-mutating-props': 0,
+    'vue/multi-word-component-names': 0,
     'quotes': [
       2,
       'single',

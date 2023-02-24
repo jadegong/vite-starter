@@ -38,6 +38,6 @@ export default {
     production: process.env.NODE_ENV === 'production' && process.env.VUE_APP_PREVIEW !== 'true',
     useMock: false, // 是否启用mock
     routePermission: true, // 是否启用路由权限控制
-    routerBase: '/realname/', // 路由base，默认/，运营商为/realname/
+    routerBase: '/vite-starter/', // 路由base，默认/
     publicKey: 'MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA3btKVk19xMPHzedTt1565vrJEJ7cLjPmm2Qr0aCNgOj3Al66I13UwiEK/UiBb/qLRxaYT5QX2Co6qq8Z1xTxIAikA5drjAN8oiBjexshEeCyUK90khK1FDK0qYULLm0s7KcX0hIo7FX4F7bXkRw5laS0DiBJOuRu0+xJt2LeMsXhhn2HKHI0hEWxmwJBHR5JItK8nVk/Q+mZj1fmRaLOTNUBvaWQ8mzPS2fc7gZ7ToIHWH05/QuJ4S08JYhz3ZFm3zvBDlOTLjFO+kCdYvd5dnFC8qHnqaiooE4r+hc3FpTthwqIDHeIe9WfWZiL/p8rqKHZudXK8UWxUGYoiZ3FGQIDAQAB', // 加密公钥
 }
