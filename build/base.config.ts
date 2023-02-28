@@ -15,7 +15,7 @@ export default defineConfig({
       include: [/\.vue$/, /\.md$/],
     }),
     vueJsx(),
-    Markdown()
+    Markdown(),
   ],
   css: {
     preprocessorOptions: {

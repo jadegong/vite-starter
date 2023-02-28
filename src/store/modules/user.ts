@@ -59,9 +59,15 @@ const user: UserModuleTypeModel = {
             resolve(result);
           });
         } else {
-          sessionStorage.setItem(ACCESS_TOKEN, 'NO_PERMISSIONS_ACCESS_TOKEN');
-          commit('SET_TOKEN', 'NO_PERMISSIONS_ACCESS_TOKEN');
-          resolve(null);
+          const ret = {
+            token: '4291d7da9005377ec9aec4a71ea837f',
+            operId: '天野远子',
+            roleTypeId: '01',
+            provinceId: '000',
+          };
+          sessionStorage.setItem(ACCESS_TOKEN, ret.token);
+          commit('SET_TOKEN', ret.token);
+          resolve(ret);
         }
       });
     },

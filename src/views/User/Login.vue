@@ -1,10 +1,9 @@
 <template>
   <div class="main login">
-    <a-form id="formLogin" class="user-layout-login" @finish="onFinish">
+    <a-form :model="loginPageState.formParams" id="formLogin" class="user-layout-login" @finish="onFinish">
       <a-form-item
         name="userName"
         :rules="[{ required: true, message: '请输入用户名' }]"
-        validateTrigger="blur"
       >
         <a-input v-model:value="loginPageState.formParams.userName" size="large" placeholder="请输入用户名">
           <template #prefix>
@@ -72,7 +71,7 @@ import { useStore } from 'vuex'
 import { useRouter } from 'vue-router'
 import JSEncrypt from 'jsencrypt'
 import { timeFix } from '@/utils/util'
-import { login, getCaptchaCode, getPublicKey } from '@/api/user'
+import { getCaptchaCode, getPublicKey } from '@/api/user'
 
 // components
 import { UserOutlined, LockOutlined, RobotOutlined, } from '@ant-design/icons-vue'
@@ -127,8 +126,10 @@ export default defineComponent({
 
     const rsaEncryption = (content: string) => {
       let encryptor = new JSEncrypt()
+      console.log(loginPageState.publicKey)
       encryptor.setPublicKey(loginPageState.publicKey)
       let encryptedStr = encryptor.encrypt(content)
+      console.log(encryptedStr)
       return encryptedStr
     }
 
@@ -143,6 +144,7 @@ export default defineComponent({
       }
 
       loginPageState.loginBtn = true
+      console.log(values)
       let loginParams = {
         userName: rsaEncryption(values.userName),
         password: rsaEncryption(values.password),
@@ -150,9 +152,9 @@ export default defineComponent({
         captchaId: loginPageState.captchaId,
         key: loginPageState.loginKey,
       }
-      login(loginParams)
+      store.dispatch('Login', loginParams)
         .then((res) => {
-          store.dispatch('SetLoginInfo', res.data).then((res1) => {
+          store.dispatch('SetLoginInfo', res).then((res1) => {
             loginSuccess(res1)
           })
         })
@@ -178,6 +180,7 @@ export default defineComponent({
     onMounted(() => {
       getCaptchaImg()
       getPublicKey().then((res) => {
+        console.log(res)
         loginPageState.loginKey = res.data.key
         loginPageState.publicKey = res.data.publicKey
       })

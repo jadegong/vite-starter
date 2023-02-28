@@ -1,36 +1,38 @@
-import {
-    DashboardOutlined,
-    SettingOutlined,
-    UserOutlined,
-} from '@ant-design/icons-vue'
-import BasicLayout from '../layouts/BasicLayout.vue';
+/**
+ * 路由定义
+ * v0.0.1 2023/02/28 gqd Split top menu and sider menu layouts;
+ */
+import { DashboardOutlined, SettingOutlined, UserOutlined } from '@ant-design/icons-vue';
+// import BasicLayout from '../layouts/BasicLayout.vue';
 import BlankLayout from '../layouts/BlankLayout.vue';
+import TopMenuOnlyLayout from '@/layouts/TopMenuOnlyLayout.vue'
+import SiderMenuOnlyLayout from '@/layouts/SiderMenuOnlyLayout.vue'
 
-export const asyncRouterMap = [
+const asyncRouterMap = [
   {
     path: '/',
     name: 'index',
-    component: BasicLayout,
+    component: TopMenuOnlyLayout,
     redirect: '/dashboard',
-    meta: { title: 'Vite Starter' },
+    meta: { title: '' },
     children: [
       {
         path: '/dashboard',
         name: 'dashboard',
         component: () => import('../views/HomeView.vue'),
-          meta: { title: '首页', icon: DashboardOutlined },
+        meta: { title: '首页', icon: DashboardOutlined },
       },
       {
         path: '/sys',
         name: 'sysManage',
-        component: BlankLayout,
+        component: SiderMenuOnlyLayout,
         meta: { title: '系统管理', icon: SettingOutlined },
         redirect: '/sys/userManage',
         children: [
           {
             path: '/sys/userManage',
             name: 'userManage',
-            component: () => import('../views/Sys/User'),
+            component: () => import('../views/Sys/User/index.vue'),
             meta: { title: '用户管理', icon: UserOutlined },
           },
         ],
@@ -67,7 +69,7 @@ export const asyncRouterMap = [
   // },
 ];
 
-export const constantRouterMap = [
+const constantRouterMap = [
   {
     path: '/user',
     name: 'user',
@@ -89,4 +91,4 @@ export const constantRouterMap = [
   },
 ];
 
-export default asyncRouterMap;
+export { asyncRouterMap, constantRouterMap };

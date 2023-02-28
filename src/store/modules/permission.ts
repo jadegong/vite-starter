@@ -67,7 +67,7 @@ function filterAsyncRouter(routerMap: Array<any>, user: any) {
 
 const permission: PermissionModuleTypeModel = {
   state: {
-    routers: constantRouterMap,
+    routers: Array<any>(),
     addRouters: Array<any>(),
   },
   mutations: {

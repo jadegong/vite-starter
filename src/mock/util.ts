@@ -3,7 +3,7 @@ const responseBody = {
     timestamp: 0,
     result: null,
     code: 0,
-    _status: number,
+    _status: 0,
     _headers: {},
 }
 

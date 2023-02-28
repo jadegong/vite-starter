@@ -14,7 +14,7 @@ import { ACCESS_TOKEN } from '@/store/mutation-types';
 
 import notification from 'ant-design-vue/es/notification';
 
-const allowList: Array<any> = ['login', 'selflogin', 'exception404']; // no redirect allowList
+const allowList: Array<any> = ['login', 'exception404']; // no redirect allowList
 const loginRoutePath = '/user/login';
 const defaultRoutePath = '/';
 
