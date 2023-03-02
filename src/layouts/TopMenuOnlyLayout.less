@@ -1,23 +1,40 @@
 .self-topbar {
   background-color: #002140;
-  color: #ffffff;
   display: flex;
   height: 60px;
   box-sizing: border-box;
   padding-left: 24px;
-}
-.logo {
-    /* width: 120px; */
-    height: 60px;
-    line-height: 60px;
-}
-.logo img {
-    height: 32px;
-}
-.self-topbar-title {
-  font-size: 18px;
-  font-weight: 400;
-  margin: 0 0 0 18px;
+  .logo {
+      /* width: 120px; */
+      height: 60px;
+      line-height: 60px;
+      img {
+          height: 32px;
+      }
+  }
+  .self-topbar-title {
+      font-size: 18px;
+      font-weight: 400;
+      margin: 0 0 0 18px;
+      color: #ffffff;
+  }
+  .ant-menu {
+      height: 40px;
+      line-height: 40px;
+      margin: 10px 0 0 24px;
+      &.ant-menu-dark {
+          background: transparent;
+      }
+      .ant-menu-item {
+          & + .ant-menu-item {
+              margin-left: 4px;
+          }
+          &:hover {
+              background: transparent;
+              border-color: #1890ff;
+          }
+      }
+  }
 }
 .page-container {
   padding: 0 24px 24px;
@@ -30,21 +47,4 @@
   background: #fff;
   padding: 24px;
   minHeight: 280px;
-}
-.ant-menu {
-    height: 40px;
-    line-height: 40px;
-    margin: 10px 0 0 24px;
-    &.ant-menu-dark {
-        background: transparent;
-    }
-    .ant-menu-item {
-        & + .ant-menu-item {
-            margin-left: 4px;
-        }
-        &:hover {
-            background: transparent;
-            border-color: #1890ff;
-        }
-    }
 }

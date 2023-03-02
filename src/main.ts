@@ -7,6 +7,7 @@ import App from './App.vue'
 import store from '@/store'
 
 import 'ant-design-vue/dist/antd.css';
+import './global.less'
 
 // mock
 // WARNING: `mockjs` NOT SUPPORT `IE` PLEASE DO NOT USE IN `production` ENV.

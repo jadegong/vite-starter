@@ -71,7 +71,7 @@ const login = (options: any) => {
   encryptor.setPrivateKey(defaultRsaPrivKey);
   let decryptedUserName = encryptor.decrypt(body.userName);
   let decryptedPassword = encryptor.decrypt(body.password);
-    if (!username.includes(decryptedUserName.toString()) || !password.includes(decryptedPassword.toString())) {
+  if (!username.includes(decryptedUserName.toString()) || !password.includes(decryptedPassword.toString())) {
     return builder({ isLogin: true }, '账户或密码错误', 401);
   }
   const res = {

@@ -22,7 +22,7 @@ import { defineComponent, reactive, onMounted } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import defaultSettings from '@/config/defaultSettings';
 import store from '@/store';
-import logoPng from '@/assets/images/logo.png';
+import logoPng from '@/assets/logo.svg';
 
 import CustomIcon from '@/components/CustomIcon';
 

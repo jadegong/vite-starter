@@ -1,0 +1,151 @@
+@import 'ant-design-vue/es/style/themes/default.less';
+
+html,
+body,
+#app,
+#root {
+  height: 100%;
+  font-family: Source Han Sans CN;
+    // scrollbar-color: #b0b0b0 #f5f5f5;
+    // scrollbar-width: thin;
+}
+
+canvas {
+  display: block;
+}
+
+body {
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+ul,
+ol {
+  list-style: none;
+}
+
+.ant-table {
+    width: 100%;
+    overflow-x: auto;
+    &-thead > tr,
+    &-tbody > tr {
+      > th,
+      > td {
+          // overflow-wrap: nowrap;
+        white-space: nowrap;
+        > span {
+          display: block;
+        }
+      }
+    }
+  }
+
+// 按钮
+.ant-btn {
+  border-radius: 4px;
+}
+
+.ant-btn-background-ghost.ant-btn-primary {
+  background-color: #f2f9ff !important;
+}
+
+.ant-btn-background-ghost.ant-btn-danger {
+  color: #e91e63;
+  border-color: #e91e63;
+  background-color: #fff6f9 !important;
+}
+//tabs
+.ant-tabs-bar {
+  margin: 0px;
+  padding: 0px 24px 2px 24px;
+  background: white;
+}
+
+.ant-tabs.ant-tabs-card .ant-tabs-card-bar .ant-tabs-ink-bar {
+  visibility: visible;
+}
+
+.ant-tabs.ant-tabs-card .ant-tabs-card-bar .ant-tabs-tab {
+  border: none;
+  background: none;
+}
+
+.ant-tabs.ant-tabs-card .ant-tabs-card-bar .ant-tabs-tab .ant-tabs-close-x {
+  color: currentColor;
+}
+
+//header
+.ant-layout-header {
+  height: 60px;
+  line-height: 60px;
+  // background: linear-gradient(to right, #2196f3, #40b6ff, #2196f3);
+  .ant-menu.ant-menu-horizontal {
+    height: 40px;
+    line-height: 40px;
+    background: none;
+    .ant-menu-submenu.ant-menu-submenu-horizontal {
+      height: 40px;
+      line-height: 40px;
+    }
+  }
+}
+
+//menu
+.ant-menu {
+  font-size: 16px;
+  .ant-menu-submenu-horizontal.ant-menu-submenu-selected {
+    background: #fafbfc26;
+  }
+}
+
+// 上传
+.ant-upload.ant-upload-select-picture-card {
+  background-color: #f2f4f5;
+  border: 1px solid #d7d8d9;
+}
+
+// 自定义tab样式
+.custom-tabs {
+  .ant-tabs-bar {
+    border-bottom: none;
+    padding: 0;
+    .ant-tabs-nav-container-scrolling {
+      padding: 0;
+    }
+  }
+  .ant-tabs-nav-scroll {
+    text-align: center;
+  }
+
+  .ant-tabs-ink-bar {
+    background-color: transparent;
+  }
+  .ant-tabs-tab {
+    width: 154px;
+    height: 40px;
+    margin-right: 0;
+    color: #85898c;
+    background-color: #fafbfc;
+  }
+  .ant-tabs-tab-active {
+    background-color: #f2f9ff;
+    color: #242526;
+  }
+
+  .ant-tabs-nav .ant-tabs-tab {
+    padding: 10px 16px;
+  }
+}
+
+.ant-card-body {
+  .title {
+    font-size: 18px;
+    color: #000;
+    padding: 10px 0 20px;
+  }
+  .table-form-container {
+    padding-bottom: 20px;
+  }
+}
+

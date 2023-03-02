@@ -2,11 +2,12 @@
 <!--        2023/01/03 gqd Change to insensitive name; -->
 <!--        2023/01/11 gqd Use typescript; -->
 <!--        2023/01/17 gqd Optimize layout; -->
+<!--        2023/03/01 gqd Change logo; -->
 <template>
   <a-layout style="height: 100%">
     <a-layout-header class="self-topbar">
       <div class="logo">
-        <img alt="Vue logo" src="./assets/images/logo.png" />
+        <img alt="Vue logo" src="../assets/logo.svg" />
       </div>
       <div class="self-topbar-title">
         <span>{{ title }}</span>

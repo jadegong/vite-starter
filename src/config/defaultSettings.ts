@@ -32,7 +32,7 @@ export default {
     menu: {
         locale: true
     },
-    title: '中国移动车联卡连接管理平台',
+    title: 'vite-starter-app',
     pwa: false,
     iconfontUrl: '',
     production: process.env.NODE_ENV === 'production' && process.env.VUE_APP_PREVIEW !== 'true',
