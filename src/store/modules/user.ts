@@ -1,6 +1,7 @@
 /**
  * 用户数据
  * v0.0.1 2023/02/24 gqd Add GetInfo action;
+ * v0.0.1 2023/10/11 gqd 获取信息时从sessionStorage里获取数据回填至state,防止刷新时state无数据;
  */
 import type { ActionContext } from 'vuex';
 import { asyncRouterMap } from '@/config/router.config';
@@ -79,11 +80,15 @@ const user: UserModuleTypeModel = {
         resolve(null);
       });
     },
-    // 获取用户信息
+    /**
+     * 获取用户信息
+     * v0.0.1 2023/10/11 gqd 获取信息时从sessionStorage里获取数据回填至state,防止刷新时state无数据;
+     */
     GetInfo({ commit }: ActionContext<UserModuleStateTypeModel, any>) {
       return new Promise((resolve, reject) => {
         const userInfo = JSON.parse(sessionStorage.getItem(USER_INFO_SESSION_STORAGE) || '');
         commit('SET_INFO', userInfo);
+        commit('SET_TOKEN', userInfo.token);
         resolve(userInfo);
       });
     },

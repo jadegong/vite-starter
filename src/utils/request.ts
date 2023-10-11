@@ -1,8 +1,5 @@
 /**
- * v1.0.0 2022/02/24 gqd 文件接口优化处理;
- *        2022/03/01 gqd post请求统一为json格式;
- *        2022/04/14 gqd 需要重新登录的错误处理;
- * v1.5.6 2023/01/13 gqd 上传文件的headers['Content-Type']统一使用form格式;
+ * v1.0.0 2023/10/11 gqd 错误处理优化;
  */
 import type { App } from 'vue';
 import axios from 'axios';
@@ -95,6 +92,33 @@ request.interceptors.request.use((config: InternalAxiosRequestConfig) => {
 // response interceptor
 request.interceptors.response.use((response: AxiosResponse<any, any>) => {
   const data = response.data;
+  // 优先处理下载文件接口的错误信息 ------- 2023/10/11 gqd
+  if (data instanceof Blob && data.type === 'application/json') {
+    // 下载文件返回json一定是出错了
+    let fr = new FileReader();
+    fr.onload = function (event) {
+      let dataJsonStr = event.target?.result;
+      let dataJson = JSON.parse(dataJsonStr);
+      notification.error({
+        message: '请求出错',
+        description: dataJson.message || dataJson.msg || '',
+      });
+    };
+    fr.readAsText(data);
+    return {
+      type: 'application/json',
+    };
+  }
+  if (data && data.status) {
+    // 防止文件下载返回被捕捉
+    // 后台返回数据
+    if (data.status !== constants.REQUEST_STATUS_SUCCESS && data.type !== 'application/octet-stream') {
+      notification.error({
+        message: '请求出错',
+        description: data.message || data.msg || '',
+      });
+    }
+  }
   const disposition = response.headers['content-disposition'];
   if (disposition) {
     // 下载文件接口需要从response.headers中获取文件名
@@ -102,15 +126,6 @@ request.interceptors.response.use((response: AxiosResponse<any, any>) => {
       blob: response.data,
       fileName: decodeURI(disposition.split(';')[1].split('filename=')[1]),
     };
-  }
-  if (data) {
-    // 后台返回数据
-    if (data.status !== constants.REQUEST_STATUS_SUCCESS) {
-      notification.error({
-        message: '请求出错',
-        description: data.message || data.msg || '',
-      });
-    }
   }
   return response.data;
 }, errorHandler);

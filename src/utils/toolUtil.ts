@@ -5,7 +5,9 @@
  * @format
  * Functions: extend, merge, commafy, formatCharts, dataUnit, iotDateFormat, export,
  * isFunction, isPlainObject, isObject, clone, isArray, isDom, isBuiltInObject, isPrimitive,
+ * v0.0.1 2023/10/11 gqd export函数优化;
  */
+import request from './request'
 
 const toolUtil = {
   // jq extend
@@ -598,22 +600,95 @@ const toolUtil = {
         return v;
     }
   },
-
-  export(url: any, param: any) {
-    const domform = document.createElement('form');
-    domform.id = 'exportForm';
-    domform.name = 'exportForm';
-    domform.style.display = 'none';
-    document.body.appendChild(domform);
-    const input = document.createElement('input');
-    input.name = 'obj';
-    input.value = JSON.stringify(param);
-    domform.appendChild(input);
-    domform.method = 'POST';
-    domform.action = url; // 导出接口地址
-    domform.submit();
-    document.body.removeChild(domform);
+  // IE判断
+  IEVersion() {
+    const { userAgent } = navigator; // 取得浏览器的userAgent字符串
+    const isIE = userAgent.indexOf('compatible') > -1 && userAgent.indexOf('MSIE') > -1; // 判断是否IE<11浏览器
+    const isEdge = userAgent.indexOf('Edge') > -1 && !isIE; // 判断是否IE的Edge浏览器
+    const isIE11 = userAgent.indexOf('Trident') > -1 && userAgent.indexOf('rv:11.0') > -1;
+    if (isIE) {
+      const reIE = new RegExp('MSIE (\\d+\\.\\d+);');
+      reIE.test(userAgent);
+      const fIEVersion = parseFloat(RegExp.$1);
+      if (fIEVersion === 7) {
+        return 7;
+      }
+      if (fIEVersion === 8) {
+        return 8;
+      }
+      if (fIEVersion === 9) {
+        return 9;
+      }
+      if (fIEVersion === 10) {
+        return 10;
+      }
+      return 6; // IE版本<=7
+    }
+    if (isEdge) {
+      return 'edge'; // edge
+    }
+    if (isIE11) {
+      return 11; // IE11
+    }
+    return false; // 不是ie浏览器
   },
+  /**
+   * 导出
+   * v1.0.0 2022/04/11 gqd 增加请求方法参数;
+   * v1.0.0 2023/06/02 gqd 去除responseType参数，防止返回数据格式被改变;
+   * v1.0.0 2023/06/10 gqd 增加responseType参数，否则会导致返回文件不能打开;
+   */
+  export(url: any, params: any, method = 'get', callback: any) {
+    const obj = {
+      url,
+      responseType: 'blob',
+      method: method,
+    };
+    // if (blob) {
+    //   obj.responseType = 'blob'
+    // }
+    if (method === 'get') {
+      obj.params = params;
+    }
+    if (method === 'post') {
+      obj.data = params;
+    }
+    request(obj).then((res: any) => {
+      if (callback) callback();
+      if (res.type === 'application/json') {
+        return;
+      }
+      let { fileName, blob } = res;
+      if (this.IEVersion()) {
+        window.navigator.msSaveOrOpenBlob(blob);
+      } else {
+        const url = window.URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        document.body.appendChild(a);
+        a.href = url;
+        a.download = decodeURIComponent(fileName).replace(new RegExp('"', 'g'), '');
+        a.click();
+        window.URL.revokeObjectURL(url);
+        document.body.removeChild(a);
+      }
+    });
+  },
+
+  // export(url: any, param: any) {
+  //   const domform = document.createElement('form');
+  //   domform.id = 'exportForm';
+  //   domform.name = 'exportForm';
+  //   domform.style.display = 'none';
+  //   document.body.appendChild(domform);
+  //   const input = document.createElement('input');
+  //   input.name = 'obj';
+  //   input.value = JSON.stringify(param);
+  //   domform.appendChild(input);
+  //   domform.method = 'POST';
+  //   domform.action = url; // 导出接口地址
+  //   domform.submit();
+  //   document.body.removeChild(domform);
+  // },
 
   isFunction(obj: any) {
     // Support: Chrome <=57, Firefox <=52

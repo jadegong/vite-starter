@@ -1,6 +1,5 @@
 import {createApp} from 'vue'
 import Antd from 'ant-design-vue';
-// import AntdvBusinessCommon from '../packages';
 
 import router from './router'
 import App from './App.vue'
@@ -21,6 +20,5 @@ app.use(router)
 app.use(store)
 
 app.use(Antd);
-// app.use(AntdvBusinessCommon);
 
 app.mount('#app')
