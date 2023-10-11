@@ -196,6 +196,13 @@ export default defineComponent({
 </script>
 
 <style lang="less">
+.main {
+  display: inline-block;
+  margin-top: 40%;
+  margin-left: 40%;
+  padding: 24px;
+  box-shadow: 0 0px 5px 2px #eee;
+}
 .login {
   .login-icon {
     position: absolute;
