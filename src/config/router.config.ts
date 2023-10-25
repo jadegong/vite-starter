@@ -5,8 +5,8 @@
 import { DashboardOutlined, SettingOutlined, UserOutlined } from '@ant-design/icons-vue';
 // import BasicLayout from '../layouts/BasicLayout.vue';
 import BlankLayout from '../layouts/BlankLayout.vue';
-import TopMenuOnlyLayout from '@/layouts/TopMenuOnlyLayout.vue'
-import SiderMenuOnlyLayout from '@/layouts/SiderMenuOnlyLayout.vue'
+import TopMenuOnlyLayout from '@/layouts/TopMenuOnlyLayout.vue';
+import SiderMenuOnlyLayout from '@/layouts/SiderMenuOnlyLayout.vue';
 
 const asyncRouterMap = [
   {
@@ -70,6 +70,20 @@ const asyncRouterMap = [
 ];
 
 const constantRouterMap = [
+  {
+    path: '/user',
+    name: 'user',
+    component: BlankLayout,
+    redirect: '/user/login',
+    hidden: true,
+    children: [
+      {
+        path: 'login',
+        name: 'login',
+        component: () => import('../views/User/Login.vue'),
+      },
+    ],
+  },
   {
     path: '/user',
     name: 'user',
